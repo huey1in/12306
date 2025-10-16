@@ -1,6 +1,98 @@
 # 12306火车票订票工具
 
-## 免责声明
+## 目录结构
+
+```
+12306/
+├── main.py                          # 主程序入口
+├── requirements.txt                 # 项目依赖包
+├── LICENSE                          # MIT 许可证
+├── README.md                        # 项目文档
+├── cookies.pkl                      # 登录cookies（自动生成）
+├── 12306.log                        # 日志文件（自动生成）
+├── utils/                           # 工具模块
+│   ├── __init__.py
+│   ├── logger.py                   # 日志记录工具
+│   ├── constants.py                # 常量定义（车站映射等）
+│   └── helpers.py                  # 辅助函数（加密、编码等）
+├── services/                        # 业务服务层
+│   ├── __init__.py
+│   ├── ticket_debugger.py          # 车票查询服务
+│   ├── auth_service.py             # 登录认证服务
+│   ├── cookie_service.py           # Cookie管理服务
+│   ├── order_query_service.py      # 订单查询服务
+│   ├── order_submit_service.py     # 订单提交服务
+│   └── grab_ticket_service.py      # 抢票服务
+├── models/                          # 数据模型
+│   └── __init__.py
+└── config/                          # 配置文件
+    ├── __init__.py
+    └── config_example.py
+```
+
+## 模块说明
+
+### utils/ - 工具模块
+
+- **logger.py**: 日志记录工具
+  - `setup_logging()` - 初始化日志系统
+  - `get_logger()` - 获取日志记录器
+
+- **constants.py**: 常量定义
+  - `STATION_MAPPING` - 全国车站代码映射表
+  - `SEAT_TYPE_MAPPING` - 座位类型映射
+  - `DEFAULT_HEADERS` - API请求头
+
+- **helpers.py**: 辅助函数
+  - `encrypt_password()` - SM4密码加密
+  - `js_escape()` - JavaScript转义编码
+  - `format_seat_display()` - 座位显示格式化
+  - `decode_train_info()` - 车次信息解码
+
+### services/ - 服务层
+
+- **ticket_debugger.py**: 车票查询服务
+  - `TrainTicketDebugger` 类 - 负责查询12306 API获取车次信息
+
+- **auth_service.py**: 登录认证服务
+  - `AuthService` 类 - 负责用户登录、认证、登录状态检查
+
+- **cookie_service.py**: Cookie管理服务
+  - `CookieService` 类 - 负责Cookie的加载和保存
+
+- **order_query_service.py**: 订单查询服务
+  - `OrderQueryService` 类 - 负责获取乘客信息、排队人数、订单状态等
+
+- **order_submit_service.py**: 订单提交服务
+  - `OrderSubmitService` 类 - 负责提交订单、检查订单、确认排队等
+
+- **grab_ticket_service.py**: 抢票服务
+  - `GrabTicketService` 类 - 负责定时抢票功能
+
+## 主程序说明
+
+**main.py** 中的 `TrainOrderManager` 类整合了所有服务，提供以下功能：
+
+1. **query_trains_only()** - 查询车次信息
+2. **auto_book_ticket()** - 自动订票流程
+3. **scheduled_grab_ticket()** - 定时抢票流程
+4. **login_process()** - 登录流程
+5. **check_login_status()** - 检查登录状态
+
+## 使用方法
+
+```bash
+# 运行主程序
+python main.py
+
+## 注意事项
+
+1. cookies.pkl 会自动保存在项目根目录
+2. 日志文件（12306.log）会自动生成
+
+---
+
+## ⚠️ 免责声明
 
 **本工具仅供个人学习、研究和交流使用，不得用于任何商业、营利或非法目的。使用本工具即表示您已充分理解并同意下述所有免责声明。**
 
@@ -148,162 +240,3 @@
 ---
 
 **最后，作者建议：如果您对本工具的任何方面有疑虑，请不要使用它。您的账户安全和个人隐私比使用本工具更加重要。**
-
----
-
-## 目录结构
-
-```
-12306/
-├── main.py                          # 主程序入口
-├── requirements.txt                 # 项目依赖包
-├── LICENSE                          # MIT 许可证（英文版）
-├── README.md                        # 项目文档
-├── cookies.pkl                      # 登录cookies（自动生成）
-├── 12306.log                        # 日志文件（自动生成）
-├── utils/                           # 工具模块
-│   ├── __init__.py
-│   ├── logger.py                   # 日志记录工具
-│   ├── constants.py                # 常量定义（车站映射等）
-│   └── helpers.py                  # 辅助函数（加密、编码等）
-├── services/                        # 业务服务层
-│   ├── __init__.py
-│   ├── ticket_debugger.py          # 车票查询服务
-│   ├── auth_service.py             # 登录认证服务
-│   ├── cookie_service.py           # Cookie管理服务
-│   ├── order_query_service.py      # 订单查询服务
-│   ├── order_submit_service.py     # 订单提交服务
-│   └── grab_ticket_service.py      # 抢票服务
-├── models/                          # 数据模型
-│   └── __init__.py
-└── config/                          # 配置文件
-    ├── __init__.py
-    └── config_example.py
-```
-
-## 模块说明
-
-### src/utils/ - 工具模块
-
-- **logger.py**: 日志记录工具
-  - `setup_logging()` - 初始化日志系统
-  - `get_logger()` - 获取日志记录器
-
-- **constants.py**: 常量定义
-  - `STATION_MAPPING` - 全国车站代码映射表
-  - `SEAT_TYPE_MAPPING` - 座位类型映射
-  - `DEFAULT_HEADERS` - API请求头
-
-- **helpers.py**: 辅助函数
-  - `encrypt_password()` - SM4密码加密
-  - `js_escape()` - JavaScript转义编码
-  - `format_seat_display()` - 座位显示格式化
-  - `decode_train_info()` - 车次信息解码
-
-### src/services/ - 服务层
-
-- **ticket_debugger.py**: 车票查询服务
-  - `TrainTicketDebugger` 类 - 负责查询12306 API获取车次信息
-
-- **auth_service.py**: 登录认证服务
-  - `AuthService` 类 - 负责用户登录、认证、登录状态检查
-
-- **cookie_service.py**: Cookie管理服务
-  - `CookieService` 类 - 负责Cookie的加载和保存
-
-- **order_query_service.py**: 订单查询服务
-  - `OrderQueryService` 类 - 负责获取乘客信息、排队人数、订单状态等
-
-- **order_submit_service.py**: 订单提交服务
-  - `OrderSubmitService` 类 - 负责提交订单、检查订单、确认排队等
-
-## 主程序说明
-
-**main.py** 中的 `TrainOrderManager` 类整合了所有服务，提供以下功能：
-
-1. **query_trains_only()** - 查询车次信息
-2. **auto_book_ticket()** - 自动订票流程
-3. **scheduled_grab_ticket()** - 定时抢票流程
-4. **login_process()** - 登录流程
-5. **check_login_status()** - 检查登录状态
-
-## 注意事项
-
-1. cookies.pkl 会自动保存在项目根目录
-3. 日志文件（12306.log）会自动生成
-
----
-
-**特别提示**：请务必在使用本工具前阅读上述免责声明，理解相关风险。
-
-## MIT 开源协议
-
-本项目采用 MIT License 开源协议。
-
-### MIT License 许可内容
-
-MIT License
-
-Copyright (c) 2025
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-### 中文翻译
-
-**MIT许可证**
-
-版权所有 (c) 2025
-
-特此免费授予获得本软件及其关联文档文件（以下称"软件"）副本的任何人，
-无限制地处理本软件，包括但不限于使用、复制、修改、合并、发布、分发、
-再许可和/或销售本软件的副本，以及许可获得本软件的人士这样做，但须符合以下条件：
-
-上述版权声明和本许可声明应包含在本软件的所有副本或大部分中。
-
-本软件"按原样"提供，不提供任何形式的明示或暗示的担保，
-包括但不限于对适销性、特定目的的适用性和非侵权的担保。
-在任何情况下，作者或版权持有人均不对任何索赔、损害或其他
-责任承担责任，无论是在合同诉讼、侵权诉讼或其他方面产生的，
-由软件或软件的使用或其他处理引起的或与之相关的。
-
-### 许可证的含义
-
-**您可以**：
-- 自由使用本软件，包括商业和非商业用途
-- 复制本软件的源代码
-- 修改本软件的源代码
-- 分发本软件或修改后的版本
-- 在您自己的项目中使用本软件
-- 销售包含本软件的产品
-
-**您必须**：
-- 在所有副本或重要部分中包含上述版权声明和许可声明
-- 保留原始许可证声明
-
-**您不可以**：
-- 将作者的名字用于推荐或促销任何衍生产品，除非另行许可
-
-### 免责声明
-
-需要特别注意的是，虽然本项目采用 MIT 许可证，但根据本 README 前面的详细免责声明，
-本工具的使用可能涉及法律风险。MIT 许可证并不改变或减轻本工具使用中可能产生的任何法律责任。
-
-用户仍然需要自行判断使用本工具的合法性，并自行承担所有后果。
-
----
