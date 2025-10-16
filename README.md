@@ -156,25 +156,29 @@
 ```
 12306/
 ├── main.py                          # 主程序入口
+├── requirements.txt                 # 项目依赖包
+├── LICENSE                          # MIT 许可证（英文版）
+├── README.md                        # 项目文档
 ├── cookies.pkl                      # 登录cookies（自动生成）
 ├── 12306.log                        # 日志文件（自动生成）
-├── src/                             # 源代码目录
+├── utils/                           # 工具模块
 │   ├── __init__.py
-│   ├── utils/                       # 工具模块
-│   │   ├── __init__.py
-│   │   ├── logger.py               # 日志记录工具
-│   │   ├── constants.py            # 常量定义（车站映射等）
-│   │   └── helpers.py              # 辅助函数（加密、编码等）
-│   ├── services/                    # 业务服务层
-│   │   ├── __init__.py
-│   │   ├── ticket_debugger.py      # 车票查询服务
-│   │   ├── auth_service.py         # 登录认证服务
-│   │   ├── cookie_service.py       # Cookie管理服务
-│   │   ├── order_query_service.py  # 订单查询服务
-│   │   └── order_submit_service.py # 订单提交服务
-│   ├── models/                      # 数据模型
-│   └── config/                      # 配置文件
-└── README.md                        # 项目文档
+│   ├── logger.py                   # 日志记录工具
+│   ├── constants.py                # 常量定义（车站映射等）
+│   └── helpers.py                  # 辅助函数（加密、编码等）
+├── services/                        # 业务服务层
+│   ├── __init__.py
+│   ├── ticket_debugger.py          # 车票查询服务
+│   ├── auth_service.py             # 登录认证服务
+│   ├── cookie_service.py           # Cookie管理服务
+│   ├── order_query_service.py      # 订单查询服务
+│   ├── order_submit_service.py     # 订单提交服务
+│   └── grab_ticket_service.py      # 抢票服务
+├── models/                          # 数据模型
+│   └── __init__.py
+└── config/                          # 配置文件
+    ├── __init__.py
+    └── config_example.py
 ```
 
 ## 模块说明
@@ -227,8 +231,6 @@
 
 1. cookies.pkl 会自动保存在项目根目录
 3. 日志文件（12306.log）会自动生成
-
----
 
 ---
 

@@ -8,7 +8,7 @@ import time
 import re
 from datetime import datetime
 import urllib.parse
-from src.utils import get_logger
+from utils import get_logger
 
 
 class OrderQueryService:

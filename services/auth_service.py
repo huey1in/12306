@@ -6,7 +6,7 @@
 import json
 import requests
 import getpass
-from src.utils import get_logger, encrypt_password
+from utils import get_logger, encrypt_password
 
 
 class AuthService:

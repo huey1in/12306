@@ -5,7 +5,7 @@
 
 import time
 from datetime import datetime
-from src.utils import get_logger
+from utils import get_logger
 
 
 class GrabTicketService:

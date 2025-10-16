@@ -6,11 +6,8 @@
 import sys
 import os
 
-# 添加src目录到Python路径
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
-
-from src.utils import setup_logging, STATION_MAPPING, get_logger
-from src.services import (
+from utils import setup_logging, STATION_MAPPING, get_logger
+from services import (
     TrainTicketDebugger,
     AuthService,
     CookieService,
@@ -156,7 +153,7 @@ class TrainOrderManager:
 
     def select_train_manually(self, available_trains):
         """手动选择车次和座位"""
-        from src.utils import format_seat_display
+        from utils import format_seat_display
 
         print("\n可用车次列表：")
         print("="*100)

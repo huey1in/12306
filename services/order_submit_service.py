@@ -8,7 +8,7 @@ import time
 import re
 from datetime import datetime
 import urllib.parse
-from src.utils import get_logger, js_escape
+from utils import get_logger, js_escape
 
 
 class OrderSubmitService:
@@ -272,7 +272,7 @@ class OrderSubmitService:
 
     def poll_order_status(self, repeat_submit_token, max_wait_time=300):
         """轮询订单状态"""
-        from src.services.order_query_service import OrderQueryService
+        from .order_query_service import OrderQueryService
         
         query_service = OrderQueryService(self.session, self.logger)
         
